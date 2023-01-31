@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text } from 'react-native-paper';
+import { WebView } from 'react-native-webview';
 
 export default function Account() {
-  return <Text>Account Page</Text>;
+  return <WebView source={{ uri: 'https://google.com/' }} />;
 }

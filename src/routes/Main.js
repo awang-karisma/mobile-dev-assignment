@@ -2,20 +2,12 @@ import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Home, Account, Setting } from '../layouts';
 
 const Tab = createMaterialBottomTabNavigator();
 
-function TabIcon({ name, color }) {
-  return <MaterialCommunityIcons name={name} color={color} size={26} />;
-}
-TabIcon.propTypes = {
-  name: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
-};
 export default function Main() {
   return (
     <SafeAreaView style={styles.container}>
@@ -25,7 +17,10 @@ export default function Main() {
           component={Home}
           options={{
             tabBarLabel: 'Home',
-            tabBarIcon: <TabIcon name="home" />,
+            // eslint-disable-next-line react/no-unstable-nested-components
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="home" color={color} size={26} />
+            ),
           }}
         />
         <Tab.Screen
@@ -33,7 +28,10 @@ export default function Main() {
           component={Account}
           options={{
             tabBarLabel: 'Account',
-            tabBarIcon: <TabIcon name="account" />,
+            // eslint-disable-next-line react/no-unstable-nested-components
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="account" color={color} size={26} />
+            ),
           }}
         />
         <Tab.Screen
@@ -41,7 +39,10 @@ export default function Main() {
           component={Setting}
           options={{
             tabBarLabel: 'Setting',
-            tabBarIcon: <TabIcon name="wrench" />,
+            // eslint-disable-next-line react/no-unstable-nested-components
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="wrench" color={color} size={26} />
+            ),
           }}
         />
       </Tab.Navigator>
