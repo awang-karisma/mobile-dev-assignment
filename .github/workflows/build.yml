@@ -1,5 +1,8 @@
 name: Build App
 on:
+  push:
+    branches:
+      - 'main'
   workflow_dispatch:
     inputs:
       os:
@@ -8,12 +11,14 @@ on:
         options:
           - macos-latest
           - ubuntu-latest
+        default: 'ubuntu-latest'
       platform:
         type: choice
         description: Platform to build for
         options:
           - android
           - ios
+        default: 'android'
       profile:
         type: choice
         description: Build profile to use
@@ -21,6 +26,7 @@ on:
           - development
           - preview
           - production
+        default: 'preview'
 jobs:
   build:
     runs-on: ${{ github.event.inputs.os }}
@@ -62,3 +68,20 @@ jobs:
         with:
           name: app-${{ github.event.inputs.platform }}
           path: app-build
+  release:
+    needs: [build]
+    runs-on: ${{ github.event.inputs.os }}
+    steps:
+      - name: 📦 Get package info
+        id: package
+        uses: codex-team/action-nodejs-package-info@v1.1
+      - name: 👨‍🏭 Rename artifact
+        run: mv "./app-build/app-release.apk" "./app-build/${{ steps.package.outputs.name }}-${{ steps.package.outputs.version }}.apk"
+      - name: 👍 Release build
+        uses: 'marvinpinto/action-automatic-releases@latest'
+        with:
+          repo_token: '${{ secrets.GITHUB_TOKEN }}'
+          automatic_release_tag: 'latest'
+          prerelease: true
+          title: 'Build'
+          files: './app-build/${{ steps.package.outputs.name }}-${{ steps.package.outputs.version }}.apk'

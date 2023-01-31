@@ -28,3 +28,4 @@ yarn lint
 - https://github.com/invertase/notifee - Notification Library
 - https://github.com/react-navigation/react-navigation - Bottom and Top Tab Navigation
 - https://github.com/oblador/react-native-vector-icons - Icons
+- https://github.com/byCedric/eas-gha - EAS local build with Github Actions
