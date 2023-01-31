@@ -11,14 +11,12 @@ on:
         options:
           - macos-latest
           - ubuntu-latest
-        default: 'ubuntu-latest'
       platform:
         type: choice
         description: Platform to build for
         options:
           - android
           - ios
-        default: 'android'
       profile:
         type: choice
         description: Build profile to use
@@ -26,10 +24,9 @@ on:
           - development
           - preview
           - production
-        default: 'preview'
 jobs:
   build:
-    runs-on: ${{ github.event.inputs.os }}
+    runs-on: ${{ github.event.inputs.os || 'ubuntu-latest' }}
     strategy:
       matrix:
         node: [16.x]
@@ -61,16 +58,16 @@ jobs:
           eas build --local \
             --non-interactive \
             --output=./app-build \
-            --platform=${{ github.event.inputs.platform }} \
-            --profile=${{ github.event.inputs.profile }}
+            --platform=${{ github.event.inputs.platform || 'android' }} \
+            --profile=${{ github.event.inputs.profile || 'preview' }}
       - name: 📱 Upload binary
         uses: actions/upload-artifact@v2
         with:
-          name: app-${{ github.event.inputs.platform }}
+          name: app-${{ github.event.inputs.platform || 'android' }}
           path: app-build
   release:
     needs: [build]
-    runs-on: ${{ github.event.inputs.os }}
+    runs-on: ${{ github.event.inputs.os || 'ubuntu-latest' }}
     steps:
       - name: 📦 Get package info
         id: package
