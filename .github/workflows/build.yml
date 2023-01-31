@@ -60,20 +60,17 @@ jobs:
             --output=./app-build \
             --platform=${{ github.event.inputs.platform || 'android' }} \
             --profile=${{ github.event.inputs.profile || 'preview' }}
-      - name: 📱 Upload binary
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-${{ github.event.inputs.platform || 'android' }}
-          path: app-build
   release:
     needs: [build]
     runs-on: ${{ github.event.inputs.os || 'ubuntu-latest' }}
     steps:
+      - name: 🤔 List current directory content
+        run: "ls; cd ${{ GITHUB_WORKSPACE }}; ls"
       - name: 📦 Get package info
         id: package
         uses: codex-team/action-nodejs-package-info@v1.1
       - name: 👨‍🏭 Rename artifact
-        run: mv "./app-build/app-release.apk" "./app-build/${{ steps.package.outputs.name }}-${{ steps.package.outputs.version }}.apk"
+        run: mv "${{ GITHUB_WORKSPACE }}/app-build/app-release.apk" "${{ GITHUB_WORKSPACE }}/app-build/${{ steps.package.outputs.name }}-${{ steps.package.outputs.version }}.apk"
       - name: 👍 Release build
         uses: 'marvinpinto/action-automatic-releases@latest'
         with:
@@ -81,4 +78,9 @@ jobs:
           automatic_release_tag: 'latest'
           prerelease: true
           title: 'Build'
-          files: './app-build/${{ steps.package.outputs.name }}-${{ steps.package.outputs.version }}.apk'
+          files: '${{ GITHUB_WORKSPACE }}/app-build/${{ steps.package.outputs.name }}-${{ steps.package.outputs.version }}.apk'
+      - name: 📱 Upload binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-${{ github.event.inputs.platform || 'android' }}
+          path: '${{ GITHUB_WORKSPACE }}/app-build'
