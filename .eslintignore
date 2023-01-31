@@ -3,7 +3,7 @@
 node_modules/
 .expo/
 .vscode/
-.argon/
+android/
 .env
 .env.*
 !.env.example
