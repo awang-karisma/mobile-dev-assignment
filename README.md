@@ -1,6 +1,6 @@
 # mobile-developer-test-assignment
 
-An assignment for interview
+An assignment for interview. React Native, Redux and Redux Toolkit for state management, Expo framework for building.
 
 ## Developing
 
@@ -19,3 +19,12 @@ yarn web
 yarn format
 yarn lint
 ```
+
+## Credits
+
+- https://dummyjson.com - Fake Data
+- https://github.com/callstack/react-native-paper - Material Theme
+- https://github.com/wix/react-native-calendars - Calendar Component
+- https://github.com/invertase/notifee - Notification Library
+- https://github.com/react-navigation/react-navigation - Bottom and Top Tab Navigation
+- https://github.com/oblador/react-native-vector-icons - Icons

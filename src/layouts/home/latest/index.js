@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 
+import { useDispatch } from 'react-redux';
+import { update as notificationUpdate } from '../../../store/notification/slice';
 import ItemCard from '../../../components';
 
 export default function Latest() {
+  const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -30,6 +33,11 @@ export default function Latest() {
             desc={item.description}
             price={item.price.toString()}
             key={item.id}
+            onAction={() => {
+              dispatch(
+                notificationUpdate({ title: item.title, image: item.image, price: item.price })
+              );
+            }}
           />
         ))}
     </ScrollView>

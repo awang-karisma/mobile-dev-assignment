@@ -3,7 +3,7 @@ import { Card, Button, Text } from 'react-native-paper';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function ItemCard({ image, title, desc, price }) {
+export default function ItemCard({ image, title, desc, price, onAction }) {
   return (
     <Card style={styles.card}>
       <Card.Cover source={{ uri: image }} />
@@ -13,7 +13,7 @@ export default function ItemCard({ image, title, desc, price }) {
       </Card.Content>
       <Card.Actions>
         <Text>${price}</Text>
-        <Button>Order Now</Button>
+        <Button onPress={() => onAction()}>Order Now</Button>
       </Card.Actions>
     </Card>
   );
@@ -23,6 +23,10 @@ ItemCard.propTypes = {
   title: PropTypes.string.isRequired,
   desc: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
+  onAction: PropTypes.func,
+};
+ItemCard.defaultProps = {
+  onAction: () => {},
 };
 const styles = StyleSheet.create({
   main: {
