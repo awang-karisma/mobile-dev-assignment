@@ -1,5 +1,6 @@
-import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import React from 'react';
+
 import Classics from './classics';
 import Latest from './latest';
 import Upcoming from './upcoming';

@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native';
-import { Card, Button, Text } from 'react-native-paper';
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Button, Card, Text } from 'react-native-paper';
 
 export default function ItemCard({ image, title, desc, price, onAction }) {
   return (

@@ -1,8 +1,9 @@
-import React from 'react';
-import { Provider as StoreProvider } from 'react-redux';
-import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context';
+import React from 'react';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { initialWindowMetrics, SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider as StoreProvider } from 'react-redux';
+
 import Main from './src/routes/Main';
 import store from './src/store';
 

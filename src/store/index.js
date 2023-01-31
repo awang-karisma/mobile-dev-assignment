@@ -1,6 +1,7 @@
 import { configureStore, createListenerMiddleware } from '@reduxjs/toolkit';
-import notificationReducer, { update as notificationUpdate } from './notification/slice';
+
 import NotificationHandler from './notification/handler';
+import notificationReducer, { update as notificationUpdate } from './notification/slice';
 
 const listenerMiddleware = createListenerMiddleware();
 listenerMiddleware.startListening({

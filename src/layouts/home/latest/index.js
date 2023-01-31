@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
-
 import { useDispatch } from 'react-redux';
-import { update as notificationUpdate } from '../../../store/notification/slice';
+
 import ItemCard from '../../../components';
+import { update as notificationUpdate } from '../../../store/notification/slice';
 
 export default function Latest() {
   const dispatch = useDispatch();

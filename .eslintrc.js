@@ -20,7 +20,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['react', 'react-native'],
+  plugins: ['react', 'react-native', 'simple-import-sort'],
   rules: {
     // allow .js files to contain JSX code
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
@@ -30,5 +30,8 @@ module.exports = {
 
     // ignore errors for the react-navigation package
     'react/prop-types': ['error', { ignore: ['navigation', 'navigation.navigate'] }],
+
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
   },
 };

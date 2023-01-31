@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
+
 import ItemCard from '../../../components';
 import items from '../../../constants';
 import { update as notificationUpdate } from '../../../store/notification/slice';
