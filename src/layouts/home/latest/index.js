@@ -35,7 +35,7 @@ export default function Latest() {
             key={item.id}
             onAction={() => {
               dispatch(
-                notificationUpdate({ title: item.title, image: item.image, price: item.price })
+                notificationUpdate({ title: item.title, image: item.images[0], price: item.price })
               );
             }}
           />
