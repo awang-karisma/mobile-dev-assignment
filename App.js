@@ -3,6 +3,7 @@ import {
   DefaultTheme as NavigationLightTheme,
   NavigationContainer,
 } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import {
   MD3DarkTheme,
@@ -38,7 +39,11 @@ function Container() {
   // theme
   const theme = useTheme();
   return (
-    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+    <SafeAreaProvider
+      style={{ backgroundColor: theme.colors.background }}
+      initialMetrics={initialWindowMetrics}
+    >
+      <StatusBar />
       <NavigationContainer theme={theme.dark ? customDarkTheme : customLightTheme}>
         <Main />
       </NavigationContainer>
