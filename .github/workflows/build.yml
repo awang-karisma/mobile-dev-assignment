@@ -69,20 +69,11 @@ jobs:
       - name: 👨‍🏭 Rename artifact
         run: cp "./app-build" "./${{ steps.package.outputs.name }}-${{ steps.package.outputs.version }}.apk"
 
-      - name: 👍 Release build as latest
+      - name: 👍 Release build
         uses: 'marvinpinto/action-automatic-releases@latest'
         with:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
           automatic_release_tag: 'latest'
-          prerelease: true
-          title: 'Build'
-          files: './${{ steps.package.outputs.name }}-${{ steps.package.outputs.version }}.apk'
-
-      - name: 👍 Release build as version ${{ steps.package.outputs.version }}
-        uses: 'marvinpinto/action-automatic-releases@latest'
-        with:
-          repo_token: '${{ secrets.GITHUB_TOKEN }}'
-          automatic_release_tag: 'v${{ steps.package.outputs.version }}'
           prerelease: true
           title: 'Build'
           files: './${{ steps.package.outputs.name }}-${{ steps.package.outputs.version }}.apk'
