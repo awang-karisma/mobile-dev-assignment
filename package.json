@@ -1,6 +1,6 @@
 {
   "name": "mobile-dev-assignment",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "scripts": {
     "start": "cross-env NODE_OPTIONS='--openssl-legacy-provider' expo start --dev-client",
     "android": "cross-env NODE_OPTIONS='--openssl-legacy-provider' expo run:android",
