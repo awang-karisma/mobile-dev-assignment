@@ -1,8 +1,10 @@
 name: Build App
 on:
-  push:
+  pull_request:
     branches:
-      - 'main'
+      - main
+    types: [closed]
+
   workflow_dispatch:
     inputs:
       os:
@@ -24,13 +26,78 @@ on:
           - development
           - preview
           - production
+
 jobs:
+  release:
+    if: ${{ github.event.pull_request.merged }}
+    runs-on: 'ubuntu-latest'
+    outputs:
+      upload_url: ${{ steps.releaseplease.outputs.upload_url }}
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v2
+      - name: 🎉 Create release info
+        uses: google-github-actions/release-please-action@v3
+        id: releaseplease
+        with:
+          release-type: expo
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump steps context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$GITHUB_CONTEXT"
+
+  requirement:
+    if: ${{ (github.event.pull_request.merged && github.event.pull_request.user.login == 'github-actions[bot]') || github.event_name == 'workflow_dispatch' }}
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+  packageinfo:
+    runs-on: 'ubuntu-latest'
+    needs: requirement
+    outputs:
+      name: ${{ steps.package.outputs.name }}
+      version: ${{ steps.package.outputs.version }}
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v2
+      - name: 📦 Get package info
+        id: package
+        uses: codex-team/action-nodejs-package-info@v1.1
+        with:
+          path: ${{ github.workspace }}
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump steps context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$GITHUB_CONTEXT"
+
   build:
     runs-on: ${{ github.event.inputs.os || 'ubuntu-latest' }}
+    needs: [requirement, release, packageinfo]
     strategy:
       matrix:
         node: [16.x]
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump needs
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(needs) }}
+        run: echo "$GITHUB_CONTEXT"
+
       - name: 🏗 Setup repo
         uses: actions/checkout@v2
 
@@ -60,26 +127,20 @@ jobs:
             --output=./app-build \
             --platform=${{ github.event.inputs.platform || 'android' }} \
             --profile=${{ github.event.inputs.profile || 'preview' }}
-      - name: 📦 Get package info
-        id: package
-        uses: codex-team/action-nodejs-package-info@v1.1
-        with:
-          path: ${{ github.workspace }}
-
-      - name: 👨‍🏭 Rename artifact
-        run: cp "./app-build" "./${{ steps.package.outputs.name }}-${{ steps.package.outputs.version }}.apk"
-
-      - name: 👍 Release build
-        uses: 'marvinpinto/action-automatic-releases@latest'
-        with:
-          repo_token: '${{ secrets.GITHUB_TOKEN }}'
-          automatic_release_tag: 'latest'
-          prerelease: true
-          title: 'Build'
-          files: './${{ steps.package.outputs.name }}-${{ steps.package.outputs.version }}.apk'
 
       - name: 📱 Upload binary
         uses: actions/upload-artifact@v2
         with:
-          name: app-${{ github.event.inputs.platform || 'android' }}
+          name: '${{ needs.packageinfo.outputs.name }}-${{ needs.packageinfo.outputs.version }}.apk'
           path: app-build
+
+      - name: 👍 Attach build artifact to release
+        if: ${{ needs.release.outputs.upload_url }}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: '${{ needs.release.outputs.upload_url }}'
+          asset_path: './app-build'
+          asset_name: '${{ needs.packageinfo.outputs.name }}-${{ needs.packageinfo.outputs.version }}.apk'
+          asset_content_type: application/octet-stream

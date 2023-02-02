@@ -36,4 +36,16 @@ Just like summary, write in present tense, and explain the change you did in the
 
 This is a note for myself to learn about GitHub
 
-> Taken from https://github.com/angular/angular/blob/main/CONTRIBUTING.md
+### Release Build
+
+GitHub Actions already configured to automatically build whenever a release commit created by bot. This bot commit will be triggered by any successfull PR merge to main branch. This action also takes care of versioning, it will bump according to [SemVer](https://semver.org/). Basically, it standardize version number to MAJOR.MINOR.PATCH format, and will increment the version of :
+
+- MAJOR version, representing a breaking change, if the commit messages contains `!`, ex: `feat!: `, `fix!: `, etc.
+- MINOR version, if there's new feature that don't break existing feature. MINOR version bump triggered whenever commit messages start with `feat: `
+- PATCH version, incremented if only fixing bugs, triggered when commit messages start with `fix: `
+  For more information, please visit https://github.com/google-github-actions/release-please-action
+
+### Credits
+
+> https://github.com/angular/angular/blob/main/CONTRIBUTING.md - Commit guidelines
+> https://github.com/google-github-actions/release-please-action - Release build automation
