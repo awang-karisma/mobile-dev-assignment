@@ -2,8 +2,9 @@ import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import ItemCard from '../../../components';
+import { ItemCard } from '../../../components';
 import items from '../../../constants';
+import { add as cartAdd } from '../../../store/cart/slice';
 import { update as notificationUpdate } from '../../../store/notification/slice';
 
 export default function Classics() {
@@ -18,9 +19,14 @@ export default function Classics() {
           desc={item.desc}
           price={item.price}
           key={item.id}
-          onAction={() => {
+          onOrderNow={() => {
             dispatch(
               notificationUpdate({ title: item.title, image: item.image, price: item.price })
+            );
+          }}
+          onAddCart={() => {
+            dispatch(
+              cartAdd({ title: item.title, image: item.image, price: item.price, id: item.id })
             );
           }}
         />

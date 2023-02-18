@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, Card, Text } from 'react-native-paper';
+import { Button, Card, IconButton, Text } from 'react-native-paper';
 
-export default function ItemCard({ image, title, desc, price, onAction }) {
+export default function ItemCard({ image, title, desc, price, onOrderNow, onAddCart }) {
   return (
     <Card style={styles.card}>
       <Card.Cover source={{ uri: image }} />
@@ -13,7 +13,8 @@ export default function ItemCard({ image, title, desc, price, onAction }) {
       </Card.Content>
       <Card.Actions>
         <Text>${price}</Text>
-        <Button onPress={() => onAction()}>Order Now</Button>
+        <Button onPress={() => onOrderNow()}>Order Now</Button>
+        <IconButton mode="outlined" onPress={() => onAddCart()} icon="cart-plus" />
       </Card.Actions>
     </Card>
   );
@@ -23,10 +24,12 @@ ItemCard.propTypes = {
   title: PropTypes.string.isRequired,
   desc: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
-  onAction: PropTypes.func,
+  onOrderNow: PropTypes.func,
+  onAddCart: PropTypes.func,
 };
 ItemCard.defaultProps = {
-  onAction: () => {},
+  onOrderNow: () => {},
+  onAddCart: () => {},
 };
 const styles = StyleSheet.create({
   main: {
