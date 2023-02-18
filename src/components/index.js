@@ -1,3 +1,4 @@
+import CartCard from './CartCard';
 import ItemCard from './ItemCard';
 
-export default ItemCard;
+export { CartCard, ItemCard };
