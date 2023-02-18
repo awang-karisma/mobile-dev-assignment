@@ -3,7 +3,8 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 
-import ItemCard from '../../../components';
+import { ItemCard } from '../../../components';
+import { add as cartAdd } from '../../../store/cart/slice';
 import { update as notificationUpdate } from '../../../store/notification/slice';
 
 export default function Latest() {
@@ -33,9 +34,19 @@ export default function Latest() {
             desc={item.description}
             price={item.price.toString()}
             key={item.id}
-            onAction={() => {
+            onOrderNow={() => {
               dispatch(
                 notificationUpdate({ title: item.title, image: item.images[0], price: item.price })
+              );
+            }}
+            onAddCart={() => {
+              dispatch(
+                cartAdd({
+                  title: item.title,
+                  image: item.images[0],
+                  price: item.price,
+                  id: item.id,
+                })
               );
             }}
           />

@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { Account, Home, Setting } from '../layouts';
+import { Account, Cart, Home, Setting } from '../layouts';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -31,6 +31,17 @@ export default function Main() {
             // eslint-disable-next-line react/no-unstable-nested-components
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons name="account" color={color} size={26} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Cart"
+          component={Cart}
+          options={{
+            tabBarLabel: 'Cart',
+            // eslint-disable-next-line react/no-unstable-nested-components
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="cart" color={color} size={26} />
             ),
           }}
         />

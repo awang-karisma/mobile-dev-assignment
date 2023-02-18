@@ -22,6 +22,9 @@ module.exports = {
   },
   plugins: ['react', 'react-native', 'simple-import-sort'],
   rules: {
+    // disable React must be in scope error, not required since React v17
+    'react/react-in-jsx-scope': 'off',
+
     // allow .js files to contain JSX code
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
 
