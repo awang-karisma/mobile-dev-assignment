@@ -44,7 +44,7 @@ export default function Latest() {
                 cartAdd({
                   title: item.title,
                   image: item.images[0],
-                  price: item.price,
+                  price: item.price.toString(),
                   id: item.id,
                 })
               );

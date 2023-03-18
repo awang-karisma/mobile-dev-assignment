@@ -15,7 +15,8 @@ async function NotificationHandler({ image, price, title }) {
     alert('Please give permission to send notification.');
     return;
   }
-  Notification('Order placed successfully', {
+  // eslint-disable-next-line no-unused-vars
+  const notification = new Notification('Order placed successfully', {
     body: notificationContent.body,
     icon: notificationContent.image,
   });
